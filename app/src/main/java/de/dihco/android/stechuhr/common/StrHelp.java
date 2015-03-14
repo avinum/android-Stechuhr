@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.TimeOverView;
 
@@ -75,17 +75,17 @@ public final class StrHelp {
     public static String getActivityString(long secs, int code) {
         String res = StrHelp.getClockTimeFromSeconds(secs) + " - ";
         switch (code) {
-            case MyApplication.STARTDAY:
-                res += MyApplication.context.getString(R.string.btnStartDay);
+            case StechuhrApplication.STARTDAY:
+                res += StechuhrApplication.context.getString(R.string.btnStartDay);
                 break;
-            case MyApplication.ENDDAY:
-                res += MyApplication.context.getString(R.string.btnEndDay);
+            case StechuhrApplication.ENDDAY:
+                res += StechuhrApplication.context.getString(R.string.btnEndDay);
                 break;
-            case MyApplication.STARTPAUSE:
-                res += MyApplication.context.getString(R.string.btnStartPause);
+            case StechuhrApplication.STARTPAUSE:
+                res += StechuhrApplication.context.getString(R.string.btnStartPause);
                 break;
-            case MyApplication.ENDPAUSE:
-                res += MyApplication.context.getString(R.string.btnEndPause);
+            case StechuhrApplication.ENDPAUSE:
+                res += StechuhrApplication.context.getString(R.string.btnEndPause);
                 break;
 
         }
@@ -94,22 +94,22 @@ public final class StrHelp {
 
     public static String getOverViewText(TimeOverView timeOverView, String lineSpace) {
         if (timeOverView.arbeitsZeit == 0)
-            return lineSpace + MyApplication.context.getString(R.string.notWorked);
+            return lineSpace + StechuhrApplication.context.getString(R.string.notWorked);
 
-        String res = lineSpace + MyApplication.context.getString(R.string.worktime) + ": " + StrHelp.getTimeSpanFromSeconds(timeOverView.arbeitsZeit);
+        String res = lineSpace + StechuhrApplication.context.getString(R.string.worktime) + ": " + StrHelp.getTimeSpanFromSeconds(timeOverView.arbeitsZeit);
 
         if (timeOverView.pausenZeit != 0) {
-            res += "\n" + lineSpace + MyApplication.context.getString(R.string.pause) + ": " + StrHelp.getTimeSpanFromSeconds(timeOverView.pausenZeit);
+            res += "\n" + lineSpace + StechuhrApplication.context.getString(R.string.pause) + ": " + StrHelp.getTimeSpanFromSeconds(timeOverView.pausenZeit);
 
-            if (MyApplication.getPreferences().getBoolean("useMinPauseTime", false)) {
+            if (StechuhrApplication.getPreferences().getBoolean("useMinPauseTime", false)) {
                 if (timeOverView.forcedPauseTime != 0) {
                     res += " ( -" + StrHelp.getTimeSpanFromSeconds(timeOverView.forcedPauseTime) + ")";
                 }
             }
         }
 
-        if (MyApplication.getPreferences().getBoolean("useWorkTime", false)) {
-            res += "\n" + lineSpace + MyApplication.context.getString(R.string.overtime);
+        if (StechuhrApplication.getPreferences().getBoolean("useWorkTime", false)) {
+            res += "\n" + lineSpace + StechuhrApplication.context.getString(R.string.overtime);
 
             if (timeOverView.überStunden < 0) {
                 res += ": -" + StrHelp.getTimeSpanFromSeconds(Math.abs(timeOverView.überStunden));

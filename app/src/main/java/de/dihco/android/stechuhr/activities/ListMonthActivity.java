@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.TimeOverView;
 import de.dihco.android.stechuhr.common.ComLib;
@@ -32,14 +32,14 @@ public class ListMonthActivity extends Activity {
 
         long oldSec = ComLib.getUnixOfPreviousFirstInMonthMidnight(+1);
 
-        boolean hideNoWorkTimeOnOverView = MyApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);
-        int monthViewCount = Integer.parseInt(MyApplication.getPreferences().getString("monthViewCount", "10"));
+        boolean hideNoWorkTimeOnOverView = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);
+        int monthViewCount = Integer.parseInt(StechuhrApplication.getPreferences().getString("monthViewCount", "10"));
 
         for (int i = 0; i < monthViewCount; i++) {
 
             long newSec = ComLib.getUnixOfPreviousFirstInMonthMidnight(-i);
 
-            Cursor cursor = MyApplication.getHelper().getRowsSinceWithSpan(newSec, oldSec - newSec);
+            Cursor cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan(newSec, oldSec - newSec);
 
             oldSec = newSec;
 
@@ -50,7 +50,7 @@ public class ListMonthActivity extends Activity {
             TimeOverView tOV = ComLib.getTimeOverViewFromCursor(cursor);
 
             line = StrHelp.getMonthNameFromSeconds(newSec) + " " + StrHelp.getYearFromSeconds(newSec) + "\n";
-            line += StrHelp.getOverViewText(tOV, MyApplication.context.getString(R.string.space));
+            line += StrHelp.getOverViewText(tOV, StechuhrApplication.context.getString(R.string.space));
 
             list.add(line);
         }

@@ -8,7 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.common.ComLib;
 
@@ -23,7 +23,7 @@ public class SettingsActivity extends PreferenceActivity {
         button_action_DataEdit.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                Intent intent = new Intent(MyApplication.context, DataEditActivity.class);
+                Intent intent = new Intent(StechuhrApplication.context, DataEditActivity.class);
                 startActivity(intent);
                 return true;
             }
@@ -42,7 +42,7 @@ public class SettingsActivity extends PreferenceActivity {
         button_action_DataCheck.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                Intent intent = new Intent(MyApplication.context, DataCheckActivity.class);
+                Intent intent = new Intent(StechuhrApplication.context, DataCheckActivity.class);
                 startActivity(intent);
                 return true;
             }
@@ -61,7 +61,7 @@ public class SettingsActivity extends PreferenceActivity {
         button_action_BackupImport.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                Intent intent = new Intent(MyApplication.context, BackupImportActivity.class);
+                Intent intent = new Intent(StechuhrApplication.context, BackupImportActivity.class);
                 startActivity(intent);
                 return true;
             }

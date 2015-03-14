@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.common.ComLib;
 import de.dihco.android.stechuhr.common.StrHelp;
@@ -55,7 +55,7 @@ public class DataEditActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                MyApplication.getHelper().deleteRow(deleteSeconds);
+                                StechuhrApplication.getHelper().deleteRow(deleteSeconds);
                                 FillList();
                                 //Yes button clicked
                                 break;
@@ -71,7 +71,7 @@ public class DataEditActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(DataEditActivity.this);
                 builder.setMessage("Zeile wirklich löschen?").setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).show();
 
-                //MyApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
+                //StechuhrApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
 
                 //Toast.makeText(getApplicationContext(),
                         //"Click ListItem Number " + position, Toast.LENGTH_LONG)
@@ -97,7 +97,7 @@ public class DataEditActivity extends Activity {
                         mMonth = monthOfYear;
                         mDay = dayOfMonth;
                         dateOfListSeconds = ComLib.getSecondsFromDate(year, monthOfYear, dayOfMonth);
-                        setTitle(MyApplication.context.getString(R.string.day) + " " + StrHelp.getDateFromSeconds(dateOfListSeconds));
+                        setTitle(StechuhrApplication.context.getString(R.string.day) + " " + StrHelp.getDateFromSeconds(dateOfListSeconds));
                         FillList();
                     }
                 }, mYear, mMonth, mDay){
@@ -119,11 +119,11 @@ public class DataEditActivity extends Activity {
         ListView listview = (ListView) findViewById(R.id.lvEdit);
         final List<String> list = new ArrayList<String>();
         secondList = new ArrayList<>();
-        Cursor cursor = MyApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
+        Cursor cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
 
 //        cursor.moveToPosition(cursor.getCount());
 //        while (cursor.moveToPrevious()) {
-//            if (cursor.getInt(1) == MyApplication.ENDDAY) {
+//            if (cursor.getInt(1) == StechuhrApplication.ENDDAY) {
 //                cursor.moveToNext();
 //                break;
 //            }
@@ -169,25 +169,25 @@ public class DataEditActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_NewDayStart) {
-            newAction = MyApplication.STARTDAY;
+            newAction = StechuhrApplication.STARTDAY;
             showTimePicker();
             return true;
         }
 
         if (id == R.id.action_NewDayEnd) {
-            newAction = MyApplication.ENDDAY;
+            newAction = StechuhrApplication.ENDDAY;
             showTimePicker();
             return true;
         }
 
         if (id == R.id.action_NewPauseStart) {
-            newAction = MyApplication.STARTPAUSE;
+            newAction = StechuhrApplication.STARTPAUSE;
             showTimePicker();
             return true;
         }
 
         if (id == R.id.action_NewPauseEnd) {
-            newAction = MyApplication.ENDPAUSE;
+            newAction = StechuhrApplication.ENDPAUSE;
             showTimePicker();
             return true;
         }
@@ -204,7 +204,7 @@ public class DataEditActivity extends Activity {
                     public void onTimeSet(TimePicker view, int hourOfDay,
                                           int minute) {
                         long t = ComLib.getSecondsFromDateAndTime(mYear,mMonth,mDay,hourOfDay,minute);
-                        MyApplication.getHelper().insertActionWithTime(t, newAction, false);
+                        StechuhrApplication.getHelper().insertActionWithTime(t, newAction, false);
                         FillList();
                     }
                 }, 12, 0, true);

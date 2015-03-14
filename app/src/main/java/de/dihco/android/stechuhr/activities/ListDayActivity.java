@@ -9,7 +9,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.TimeOverView;
 import de.dihco.android.stechuhr.common.ComLib;
@@ -33,13 +33,13 @@ public class ListDayActivity extends Activity {
         ListView listview = (ListView) findViewById(R.id.lvDay);
         final ArrayList<String> list = new ArrayList<String>();
 
-        boolean hideNoWorkTimeOnOverView = MyApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);
-        int dayViewCount = Integer.parseInt(MyApplication.getPreferences().getString("dayViewCount", "10"));
+        boolean hideNoWorkTimeOnOverView = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);
+        int dayViewCount = Integer.parseInt(StechuhrApplication.getPreferences().getString("dayViewCount", "10"));
 
         for (int i = 0; i < dayViewCount ; i++){
 
             long sTime = ComLib.getUnixPrevMidnight() - TimeUnit.DAYS.toSeconds(i);
-            Cursor cursor = MyApplication.getHelper().getRowsSinceWithSpan( sTime, TimeUnit.DAYS.toSeconds(1));
+            Cursor cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan( sTime, TimeUnit.DAYS.toSeconds(1));
 
 
             if (cursor.getCount() == 0 && hideNoWorkTimeOnOverView)
@@ -57,7 +57,7 @@ public class ListDayActivity extends Activity {
             if(tOV.endZeit != 0)
                 line +=  " - " + StrHelp.getClockTimeFromSeconds(tOV.endZeit) ;
 
-            line +=  "\n" + StrHelp.getOverViewText(tOV,MyApplication.context.getString(R.string.space));
+            line +=  "\n" + StrHelp.getOverViewText(tOV, StechuhrApplication.context.getString(R.string.space));
 
             list.add(line);
         }

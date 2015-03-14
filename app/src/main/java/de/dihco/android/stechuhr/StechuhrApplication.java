@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 /**
  * Created by Martin on 29.01.2015.
  */
-public class MyApplication extends Application {
+public class StechuhrApplication extends Application {
 
     public static final int STARTDAY = 1;
     public static final int STARTPAUSE = 2;

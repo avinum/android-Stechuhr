@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import de.dihco.android.stechuhr.MyApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.common.ComLib;
 
@@ -51,7 +50,7 @@ public class BackupImportActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BackupImportActivity.this);
                 builder.setMessage("Backup " + backupFileName + " importieren?").setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).show();
 
-                //MyApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
+                //StechuhrApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
 
                 //Toast.makeText(getApplicationContext(),
                 //"Click ListItem Number " + position, Toast.LENGTH_LONG)

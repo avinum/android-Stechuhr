@@ -9,7 +9,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.common.ComLib;
 import de.dihco.android.stechuhr.common.StrHelp;
@@ -30,7 +30,7 @@ public class DataCheckActivity extends Activity {
 
 
         // ==== Ersten Tag finden ====
-        Cursor cursor = MyApplication.getHelper().getFirstEvent();
+        Cursor cursor = StechuhrApplication.getHelper().getFirstEvent();
 
         if (cursor.getCount() == 0)
             return;
@@ -44,7 +44,7 @@ public class DataCheckActivity extends Activity {
 
         for (long i = startDay; i < now; i = i + TimeUnit.DAYS.toSeconds(1)) {
 
-            cursor = MyApplication.getHelper().getRowsSinceWithSpan(i, TimeUnit.DAYS.toSeconds(1));
+            cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan(i, TimeUnit.DAYS.toSeconds(1));
             if (cursor.getCount() == 0)
                 continue;
 
@@ -66,56 +66,56 @@ public class DataCheckActivity extends Activity {
     private String checkOneDay(Cursor cursor) {
         cursor.moveToFirst();
 
-        if (cursor.getInt(1) != MyApplication.STARTDAY) {
+        if (cursor.getInt(1) != StechuhrApplication.STARTDAY) {
             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_beginDay));
         }
 
-        int LastEvent = MyApplication.STARTDAY;
+        int LastEvent = StechuhrApplication.STARTDAY;
 
 
         while (cursor.moveToNext()) {
 
             switch (cursor.getInt(1)) {
-                case MyApplication.STARTDAY:
+                case StechuhrApplication.STARTDAY:
                     return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MultipleBeginDay));
-                case MyApplication.ENDPAUSE:
+                case StechuhrApplication.ENDPAUSE:
                     switch (LastEvent) {
-                        case MyApplication.STARTDAY:
+                        case StechuhrApplication.STARTDAY:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MessingPauseBegin));
-                        case MyApplication.ENDPAUSE:
+                        case StechuhrApplication.ENDPAUSE:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MessingPauseBegin));
-                        case MyApplication.STARTPAUSE:
-                            LastEvent = MyApplication.ENDPAUSE;
+                        case StechuhrApplication.STARTPAUSE:
+                            LastEvent = StechuhrApplication.ENDPAUSE;
                             continue ;
-                        case MyApplication.ENDDAY:
+                        case StechuhrApplication.ENDDAY:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_EndDay));
                     }
                     break;
-                case MyApplication.ENDDAY:
+                case StechuhrApplication.ENDDAY:
                     switch (LastEvent) {
-                        case MyApplication.STARTDAY:
-                            LastEvent = MyApplication.ENDDAY;
+                        case StechuhrApplication.STARTDAY:
+                            LastEvent = StechuhrApplication.ENDDAY;
                             continue;
-                        case MyApplication.ENDPAUSE:
-                            LastEvent = MyApplication.ENDDAY;
+                        case StechuhrApplication.ENDPAUSE:
+                            LastEvent = StechuhrApplication.ENDDAY;
                             continue;
-                        case MyApplication.STARTPAUSE:
+                        case StechuhrApplication.STARTPAUSE:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MissingPauseEnd));
-                        case MyApplication.ENDDAY:
+                        case StechuhrApplication.ENDDAY:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_EndDay));
                     }
                     break;
-                case MyApplication.STARTPAUSE:
+                case StechuhrApplication.STARTPAUSE:
                     switch (LastEvent) {
-                        case MyApplication.STARTDAY:
-                            LastEvent = MyApplication.STARTPAUSE;
+                        case StechuhrApplication.STARTDAY:
+                            LastEvent = StechuhrApplication.STARTPAUSE;
                             continue;
-                        case MyApplication.ENDPAUSE:
-                            LastEvent = MyApplication.STARTPAUSE;
+                        case StechuhrApplication.ENDPAUSE:
+                            LastEvent = StechuhrApplication.STARTPAUSE;
                             continue;
-                        case MyApplication.STARTPAUSE:
+                        case StechuhrApplication.STARTPAUSE:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MissingPauseEnd));
-                        case MyApplication.ENDDAY:
+                        case StechuhrApplication.ENDDAY:
                             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_EndDay));
                     }
                     break;
@@ -125,7 +125,7 @@ public class DataCheckActivity extends Activity {
 
         cursor.moveToLast();
 
-        if (cursor.getInt(1) != MyApplication.ENDDAY) {
+        if (cursor.getInt(1) != StechuhrApplication.ENDDAY) {
             return (StrHelp.getDateFromSeconds(cursor.getLong(0)) + " " + getString(R.string.err_MessingEnd));
         }
 

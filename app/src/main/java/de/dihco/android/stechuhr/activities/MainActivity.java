@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.TimeOverView;
 import de.dihco.android.stechuhr.common.ComLib;
@@ -104,12 +104,12 @@ public class MainActivity extends Activity {
 
         boolean hasBeenSomethingShown = false;
 
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group1", "1")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup2_Header, R.id.tvGroup2_Text, R.id.Space2, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group2", "7")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup3_Header, R.id.tvGroup3_Text, R.id.Space3, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group3", "30")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup4_Header, R.id.tvGroup4_Text, R.id.Space4, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group4", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup5_Header, R.id.tvGroup5_Text, R.id.Space5, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group5", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup6_Header, R.id.tvGroup6_Text, R.id.Space6, Integer.parseInt(MyApplication.getPreferences().getString("Design_Group6", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group1", "1")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup2_Header, R.id.tvGroup2_Text, R.id.Space2, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group2", "7")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup3_Header, R.id.tvGroup3_Text, R.id.Space3, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group3", "30")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup4_Header, R.id.tvGroup4_Text, R.id.Space4, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group4", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup5_Header, R.id.tvGroup5_Text, R.id.Space5, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group5", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        hasBeenSomethingShown = SetGroupState(R.id.tvGroup6_Header, R.id.tvGroup6_Text, R.id.Space6, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group6", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
 
         TextView tvWelcome = (TextView) findViewById(R.id.tvWelcome);
         if (!hasBeenSomethingShown){
@@ -180,10 +180,10 @@ public class MainActivity extends Activity {
                 default:
                     throw new IllegalArgumentException("Unknown group content!");
             }
-            cursor = MyApplication.getHelper().getRowsSince(timeSince);
+            cursor = StechuhrApplication.getHelper().getRowsSince(timeSince);
         } else {
             if (prefContent == 9999) {
-                cursor = MyApplication.getHelper().getAll();
+                cursor = StechuhrApplication.getHelper().getAll();
             } else {
                 if (prefContent == 2 || prefContent == 14 || prefContent == 60) {
                     long timeSince;
@@ -204,14 +204,14 @@ public class MainActivity extends Activity {
                         default:
                             throw new IllegalArgumentException("Unknown group content!");
                     }
-                    cursor = MyApplication.getHelper().getRowsSinceWithSpan(timeSince, timeSpan);
+                    cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan(timeSince, timeSpan);
                 } else {
                     throw new IllegalArgumentException("Unknown group content!");
                 }
             }
         }
 
-        boolean hideNoWorkTimeOnStartDisplay = MyApplication.getPreferences().getBoolean("hideNoWorkTimeOnStartDisplay", true);
+        boolean hideNoWorkTimeOnStartDisplay = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnStartDisplay", true);
         if (cursor.getCount() == 0 && hideNoWorkTimeOnStartDisplay) {
             tvHeader.setVisibility(View.GONE);
             tvText.setVisibility(View.GONE);
@@ -253,7 +253,7 @@ public class MainActivity extends Activity {
                 headerText = getString(R.string.month) + " " + StrHelp.getMonthNameFromSeconds(tOV.startZeit);
                 break;
             case 9999:
-                Cursor tCursor = MyApplication.getHelper().getFirstEvent();
+                Cursor tCursor = StechuhrApplication.getHelper().getFirstEvent();
                 tCursor.moveToFirst();
                 headerText = getString(R.string.since) + " " + StrHelp.getDateFromSeconds(tCursor.getLong(0));
                 break;
@@ -266,7 +266,7 @@ public class MainActivity extends Activity {
     }
 
     private void appStateRefresh() {
-        Cursor cursor = MyApplication.getHelper().getAppState();
+        Cursor cursor = StechuhrApplication.getHelper().getAppState();
 
         if (cursor.getCount() == 0) {
             appstate = AppState.BEFOREWORK;
@@ -274,16 +274,16 @@ public class MainActivity extends Activity {
 
             cursor.moveToLast();
             switch (cursor.getInt(1)) {
-                case MyApplication.STARTDAY:
+                case StechuhrApplication.STARTDAY:
                     appstate = AppState.WORKING;
                     break;
-                case MyApplication.ENDPAUSE:
+                case StechuhrApplication.ENDPAUSE:
                     appstate = AppState.WORKING;
                     break;
-                case MyApplication.ENDDAY:
+                case StechuhrApplication.ENDDAY:
                     appstate = AppState.AFTERWORK;
                     break;
-                case MyApplication.STARTPAUSE:
+                case StechuhrApplication.STARTPAUSE:
                     appstate = AppState.PAUSING;
                     break;
             }
@@ -296,7 +296,7 @@ public class MainActivity extends Activity {
     private void SetGroupState_OLD(String headerText, TextView headerTextView, TextView textView1, long time) {
 
         headerTextView.setText(headerText);
-        Cursor cursor = MyApplication.getHelper().getRowsSince(time);
+        Cursor cursor = StechuhrApplication.getHelper().getRowsSince(time);
 
         TimeOverView tOV = ComLib.getTimeOverViewFromCursor(cursor);
         textView1.setText(StrHelp.getOverViewText(tOV, ""));
@@ -339,22 +339,22 @@ public class MainActivity extends Activity {
     }
 
     public void btnStartDayClick(View view) {
-        MyApplication.getHelper().insertAction(MyApplication.STARTDAY);
+        StechuhrApplication.getHelper().insertAction(StechuhrApplication.STARTDAY);
         fullRefresh();
     }
 
     public void btnEndDayClick(View view) {
-        MyApplication.getHelper().insertAction(MyApplication.ENDDAY);
+        StechuhrApplication.getHelper().insertAction(StechuhrApplication.ENDDAY);
         fullRefresh();
     }
 
     public void btnStartPauseClick(View view) {
-        MyApplication.getHelper().insertAction(MyApplication.STARTPAUSE);
+        StechuhrApplication.getHelper().insertAction(StechuhrApplication.STARTPAUSE);
         fullRefresh();
     }
 
     public void btnEndPauseClick(View view) {
-        MyApplication.getHelper().insertAction(MyApplication.ENDPAUSE);
+        StechuhrApplication.getHelper().insertAction(StechuhrApplication.ENDPAUSE);
         fullRefresh();
     }
 

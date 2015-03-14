@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.MyApplication;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.TimeOverView;
 
 /**
@@ -30,7 +30,7 @@ public final class ComLib {
 
 
     public static void ShowMessage(String msg) {
-        Toast.makeText(MyApplication.context, msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(StechuhrApplication.context, msg, Toast.LENGTH_LONG).show();
 
     }
 
@@ -38,15 +38,15 @@ public final class ComLib {
         cursor.moveToPosition(-1);
 
         long sollZeit = 0;
-        if (MyApplication.getPreferences().getBoolean("useWorkTime", false)) {
-            String t1 = MyApplication.getPreferences().getString("standardWorkTime", "480");
+        if (StechuhrApplication.getPreferences().getBoolean("useWorkTime", false)) {
+            String t1 = StechuhrApplication.getPreferences().getString("standardWorkTime", "480");
             sollZeit = TimeUnit.MINUTES.toSeconds(Long.parseLong(t1));
         }
 
         long minPauseTime = 0;
-        boolean useMinPauseTime = MyApplication.getPreferences().getBoolean("useMinPauseTime", false);
+        boolean useMinPauseTime = StechuhrApplication.getPreferences().getBoolean("useMinPauseTime", false);
         if (useMinPauseTime) {
-            String t2 = MyApplication.getPreferences().getString("minimalPauseTime", "30");
+            String t2 = StechuhrApplication.getPreferences().getString("minimalPauseTime", "30");
             minPauseTime = TimeUnit.MINUTES.toSeconds(Long.parseLong(t2));
         }
 
@@ -63,24 +63,24 @@ public final class ComLib {
 
         while (cursor.moveToNext()) {
             switch (cursor.getInt(1)) {
-                case MyApplication.STARTDAY:
+                case StechuhrApplication.STARTDAY:
                     res.arbeitsZeit -= cursor.getLong(0);
                     res.startZeit = cursor.getLong(0);
                     pauseTimePerDay = 0;
                     noEnd = true;
                     countDay++;
                     break;
-                case MyApplication.STARTPAUSE:
+                case StechuhrApplication.STARTPAUSE:
                     res.arbeitsZeit += cursor.getLong(0);
                     pauseTimePerDay -= cursor.getLong(0);
                     noEndPause = true;
                     break;
-                case MyApplication.ENDPAUSE:
+                case StechuhrApplication.ENDPAUSE:
                     res.arbeitsZeit -= cursor.getLong(0);
                     pauseTimePerDay += cursor.getLong(0);
                     noEndPause = false;
                     break;
-                case MyApplication.ENDDAY:
+                case StechuhrApplication.ENDDAY:
                     res.arbeitsZeit += cursor.getLong(0);
                     res.endZeit = cursor.getLong(0);
                     noEnd = false;
@@ -126,7 +126,7 @@ public final class ComLib {
 
         }
 
-        if (MyApplication.getPreferences().getBoolean("useWorkTime", false)) {
+        if (StechuhrApplication.getPreferences().getBoolean("useWorkTime", false)) {
             res.überStunden = res.arbeitsZeit - (sollZeit * countDay);
         }
 
@@ -197,7 +197,7 @@ public final class ComLib {
     }
 
     public static void deleteData() {
-        MyApplication.getHelper().deleteAll();
+        StechuhrApplication.getHelper().deleteAll();
     }
 
     public static void createBackup() {
@@ -215,7 +215,7 @@ public final class ComLib {
 
                 writer.write("Stechuhr Backup\n" + StrHelp.getDateFromSeconds(ComLib.getUnixTimeNow()) + "\n" + StrHelp.getClockTimeFromSeconds(ComLib.getUnixTimeNow()) + "\n===============\n");
 
-                Cursor cursor = MyApplication.getHelper().getAll();
+                Cursor cursor = StechuhrApplication.getHelper().getAll();
 
                 while (cursor.moveToNext()) {
                     writer.write(cursor.getString(0) + "," + cursor.getString(1) + "\n");
@@ -226,7 +226,7 @@ public final class ComLib {
                 // computer. You may have to unplug and replug the device to see the
                 // latest changes. This is not necessary if the user should not modify
                 // the files.
-                MediaScannerConnection.scanFile(MyApplication.context,
+                MediaScannerConnection.scanFile(StechuhrApplication.context,
                         new String[]{traceFile.toString()},
                         null,
                         null);
@@ -262,7 +262,7 @@ public final class ComLib {
                 long secs = Long.parseLong(lineSplit[0]);
                 int code = Integer.parseInt(lineSplit[1]);
 
-                if (MyApplication.getHelper().insertActionWithTime(secs, code, true) == -1)
+                if (StechuhrApplication.getHelper().insertActionWithTime(secs, code, true) == -1)
                     errorCounter++;
                 else
                     successCounter++;
