@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Stechuhr</string>
+
+    <!--generic-->
+    <string name="day">Tag</string>
+    <string name="today">Heute</string>
+    <string name="week">Woche</string>
+    <string name="month">Monat</string>
+    <string name="pause">Pause</string>
+    <string name="yesterday">Gestern</string>
+
+    <string name="overtime">Überstunden</string>
+    <string name="worktime">Arbeitszeit</string>
+    <string name="since">Seit</string>
+
+    <string name="space">\u00A0\u00A0\u00A0\u00A0</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="settings">Einstellungen</string>
+
+    <!--Buttons-->
+    <string name="btnStartDay">Tag beginnen</string>
+    <string name="btnEndDay">Tag beenden</string>
+    <string name="btnStartPause">Pause beginnen</string>
+    <string name="btnEndPause">Pause beenden</string>
+
+    <!--Titles & Menu-->
+    <string name="backupImport">Backup importieren</string>
+    <string name="backupCreate">Backup erstellen</string>
+
+    <string name="dataCheck">Daten überprüfen</string>
+    <string name="dataEdit">Daten bearbeiten</string>
+
+    <string name="listDay">Tagesansicht</string>
+    <string name="listWeek">Wochenansicht</string>
+    <string name="listMonth">Monatsansicht</string>
+
+    <!--Error Messages-->
+    <string name="err_beginDay">Tag beginnen ist nicht das erste Ereignis</string>
+    <string name="err_MultipleBeginDay">Mehr als ein Tagesstart</string>
+    <string name="err_MessingPauseBegin">Fehlender Pausenbeginn</string>
+    <string name="err_MissingPauseEnd">Fehlendes Pausenende</string>
+    <string name="err_MessingEnd">Fehlendes Tagesende</string>
+    <string name="err_EndDay">Tag beenden ist nicht das letzte Ereignis</string>
+    <string name="noError">Keine Fehler gefunden.</string>
+
+    <!--State Text-->
+    <string name="notWorked">Nicht gearbeitet</string>
+    <string name="Welcome">Willkommen in der Stechuhr App.\n\nSie können mit den Buttons im oberen Bereich ihre Arbeitszeit stoppen. In den Einstellungen können Sie festlegen welche Informationen hier im unteren Bereich angezeigt werden sollen. Standardmäßig werden der aktuelle Tag, Woche und Monat angezeigt, sobald sie das erste mal gearbeitet haben.\n\nViel Spaß mit der App.\ndihco.de Entwicklerteam</string>
+
+    <!--generated-->
+    <string name="dataSource">Datenquelle:</string>
+
+</resources>

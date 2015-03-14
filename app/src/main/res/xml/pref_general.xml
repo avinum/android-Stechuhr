@@ -1,0 +1,152 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen android:title="Daten und Backup">
+        <PreferenceCategory android:title="Daten">
+            <Preference
+                android:key="action_DataCheck"
+                android:title="Daten überprüfen" />
+            <Preference
+                android:key="action_DataEdit"
+                android:title="Daten bearbeiten" />
+            <Preference
+                android:key="action_DataDelete"
+                android:title="Alle Daten löschen" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Backup">
+            <Preference
+                android:key="action_BackupCreate"
+                android:title="Backup erstellen" />
+            <Preference
+                android:key="action_BackupImport"
+                android:title="Backup importieren" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Anzeige">
+
+        <PreferenceCategory android:title="Allgemein">
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="hideNoWorkTimeOnStartDisplay"
+                android:summary="Elemente ohne Arbeitszeit werden ausgeblendet."
+                android:title="Startseite aufräumen?" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="hideNoWorkTimeOnOverView"
+                android:summary="Elemente ohne Arbeitszeit werden ausgeblendet."
+                android:title="Übersichten aufräumen?" />
+        </PreferenceCategory>
+
+        <PreferenceCategory android:title="Startseite">
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="1"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group1"
+                android:title="Position 1" />
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="7"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group2"
+                android:title="Position 2" />
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="30"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group3"
+                android:title="Position 3" />
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="0"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group4"
+                android:title="Position 4" />
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="0"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group5"
+                android:title="Position 5" />
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="0"
+                android:entries="@array/DisplayGroupsStartScreen"
+                android:entryValues="@array/DisplayGroupsStartScreenValues"
+                android:key="Design_Group6"
+                android:title="Position 6" />
+
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Übersichten">
+            <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
+                postText=" Tage"
+                android:defaultValue="10"
+                android:inputType="number"
+                android:key="dayViewCount"
+                android:title="Max. Anzahl Tage in der Tagesansicht" />
+            <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
+                postText=" Wochen"
+                android:defaultValue="10"
+                android:inputType="number"
+                android:key="weekViewCount"
+                android:title="Max. Anzahl Wochen in der Wochenansicht" />
+            <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
+                postText=" Monate"
+                android:defaultValue="10"
+                android:inputType="number"
+                android:key="monthViewCount"
+                android:title="Max. Anzahl Monate in der Monatsansicht" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+    <PreferenceScreen android:title="Spezialfunktionen">
+        <PreferenceCategory
+            android:summary="Arbeitszeit"
+            android:title="Soll-Arbeitszeit">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="useWorkTime"
+                android:title="Soll-Arbeitszeit aktivieren?" />
+
+            <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
+                postText=" Minuten pro Tag"
+                android:defaultValue="480"
+                android:dependency="useWorkTime"
+                android:inputType="number"
+                android:key="standardWorkTime"
+                android:title="Soll-Arbeitszeit" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:summary="Mindest-Pausenzeit"
+            android:title="Mindest-Pausenzeit">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="useMinPauseTime"
+                android:title="Mindest-Pausenzeit aktivieren?" />
+
+            <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
+                postText=" Minuten pro Tag"
+                android:defaultValue="30"
+                android:dependency="useMinPauseTime"
+                android:inputType="number"
+                android:key="minimalPauseTime"
+                android:title="Mindest-Pausenzeit" />
+
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+    <!--<PreferenceCategory-->
+    <!--android:summary="Username and password information"-->
+    <!--android:title="Login information" >-->
+    <!--<EditTextPreference-->
+    <!--android:key="username"-->
+    <!--android:summary="Please enter your login username"-->
+    <!--android:title="Username" />-->
+    <!--<EditTextPreference-->
+    <!--android:key="password"-->
+    <!--android:summary="Enter your password"-->
+    <!--android:title="Password" />-->
+    <!--</PreferenceCategory>-->
+
+</PreferenceScreen>

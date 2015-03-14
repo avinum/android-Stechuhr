@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="DisplayGroupsStartScreen">
+        <item>Heute</item>
+        <item>Gestern</item>
+        <item>Diese Woche</item>
+        <item>Letzte Woche</item>
+        <item>Dieser Monat</item>
+        <item>Letzter Monat</item>
+        <item>Gesamter Zeitraum</item>
+        <item>Nichts</item>
+    </string-array>
+    <string-array name="DisplayGroupsStartScreenValues">
+        <item>1</item>
+        <item>2</item>
+        <item>7</item>
+        <item>14</item>
+        <item>30</item>
+        <item>60</item>
+        <item>9999</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="BackupImportSources">
+        <item>Lokal</item>
+        <item>Google Drive</item>
+    </string-array>
+
+
+</resources>

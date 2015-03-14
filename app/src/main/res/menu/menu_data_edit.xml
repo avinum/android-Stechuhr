@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.dihco.android.stechuhr.activities.DataEditActivity">
+    <item android:id="@+id/action_NewDayStart" android:title="@string/btnStartDay"
+        android:orderInCategory="100" android:showAsAction="never" />
+    <item android:id="@+id/action_NewDayEnd" android:title="@string/btnEndDay"
+        android:orderInCategory="200" android:showAsAction="never" />
+    <item android:id="@+id/action_NewPauseStart" android:title="@string/btnStartPause"
+        android:orderInCategory="300" android:showAsAction="never" />
+    <item android:id="@+id/action_NewPauseEnd" android:title="@string/btnEndPause"
+        android:orderInCategory="400" android:showAsAction="never" />
+
+</menu>
