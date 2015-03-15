@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
             return true;
         }
 
-        if (id == R.id.action_refresh) {
+        if (id == R.id.action_Refresh) {
             fullRefresh();
             return true;
         }
@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
         hasBeenSomethingShown = SetGroupState(R.id.tvGroup6_Header, R.id.tvGroup6_Text, R.id.Space6, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group6", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
 
         TextView tvWelcome = (TextView) findViewById(R.id.tvWelcome);
-        if (!hasBeenSomethingShown){
+        if (!hasBeenSomethingShown && StechuhrApplication.getHelper().isDatabaseEmpty()){
             tvWelcome.setVisibility(View.VISIBLE);
             tvWelcome.setText(getString(R.string.Welcome));
         }else {

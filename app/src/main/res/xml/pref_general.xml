@@ -100,7 +100,6 @@
 
     <PreferenceScreen android:title="Spezialfunktionen">
         <PreferenceCategory
-            android:summary="Arbeitszeit"
             android:title="Soll-Arbeitszeit">
             <CheckBoxPreference
                 android:defaultValue="false"
@@ -136,6 +135,14 @@
         </PreferenceCategory>
     </PreferenceScreen>
 
+    <PreferenceCategory android:title="Informationen">
+        <Preference
+            android:key="action_LegalNotice"
+            android:title="@string/legalNotice" />
+        <Preference
+            android:key="action_privacyPolicy"
+            android:title="@string/privacyPolicy" />
+    </PreferenceCategory>
     <!--<PreferenceCategory-->
     <!--android:summary="Username and password information"-->
     <!--android:title="Login information" >-->

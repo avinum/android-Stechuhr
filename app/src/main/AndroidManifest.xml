@@ -80,6 +80,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.dihco.android.stechuhr.activities.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".activities.LegalNoticeActivity"
+            android:label="@string/legalNotice"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.dihco.android.stechuhr.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

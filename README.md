@@ -1,2 +1,2 @@
 # android-Stechuhr
-Eine Android-App zum Erfassen von Arbeitszeiten.
+Die Stechuhr-App dient zum einfachen Erfassen der Arbeitszeiten. Es ist ein privates Projekt, dass in der Freizeit entwickelt wird. Die Entwicklung verfolgt zwei Ziele. Eine einfache App zum Erfassen von Arbeitszeiten zur Verfügung zu haben (die App wird täglich genutzt) und dem Vertraut machen mit Android Entwicklung. Obwohl ich schon viel Erfahrung mit anderen Programmiersprachen habe und in diesem Bereich arbeite, möchte ich trotzdem darauf hinweisen, dass dies ist mein erstes richtiges Android Projekt ist.

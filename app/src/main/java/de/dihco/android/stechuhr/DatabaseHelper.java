@@ -84,4 +84,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteAll() {
         sqliteDatabase.delete("actionlog",null,null );
     }
+
+    public boolean isDatabaseEmpty(){
+        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{ "ActionCode"}, null, null , null, null, null, "1");
+        return (cursor.getCount() == 0);
+    }
 }

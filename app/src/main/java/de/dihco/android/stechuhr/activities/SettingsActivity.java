@@ -67,6 +67,26 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        Preference button_action_LegalNotice = (Preference) findPreference("action_LegalNotice");
+        button_action_LegalNotice.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                Intent intent = new Intent(StechuhrApplication.context, LegalNoticeActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        Preference button_action_privacyPolicy = (Preference) findPreference("action_privacyPolicy");
+        button_action_privacyPolicy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                Intent intent = new Intent(StechuhrApplication.context, LegalNoticeActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
 
     }
 
