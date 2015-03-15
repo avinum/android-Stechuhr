@@ -66,6 +66,9 @@ public class BackupImportActivity extends Activity {
         ListView listview = (ListView) findViewById(R.id.lvBackupImport);
         final ArrayList<String> list = ComLib.getLocalBackupFileList();
 
+        if (list.size() == 0){
+            finish();
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);

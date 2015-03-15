@@ -284,12 +284,15 @@ public final class ComLib {
 
         File folder = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup");
         File fileArray[] = folder.listFiles();
-        Arrays.sort(fileArray);
+        if (fileArray != null) {
+            Arrays.sort(fileArray);
 
-        for (int i = fileArray.length - 1; i >= 0; i--) {
-            list.add(fileArray[i].getName());
+            for (int i = fileArray.length - 1; i >= 0; i--) {
+                list.add(fileArray[i].getName());
+            }
+        }else {
+            ComLib.ShowMessage("Keine Backups vorhanden!");
         }
-
         return list;
     }
 }
