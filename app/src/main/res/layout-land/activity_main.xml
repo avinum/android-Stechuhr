@@ -1,0 +1,207 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnStartDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnStartDayClick"
+        android:text="@string/btnStartDay"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnDayEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnEndDayClick"
+        android:text="@string/btnEndDay"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/btnStartPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnStartPauseClick"
+        android:text="@string/btnStartPause"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnEndPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="btnEndPauseClick"
+        android:text="@string/btnEndPause"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/btnStartPause"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true">
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:id="@+id/LinLayLeft">
+
+                <TextView
+                    android:id="@+id/tvWelcome"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Welcome"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <TextView
+                    android:id="@+id/tvGroup1_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/today"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup1_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notWorked"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/Space3" />
+
+                <TextView
+                    android:id="@+id/tvGroup3_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup3_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12 Tage gearbeitet"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Space
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/Space5" />
+
+                <TextView
+                    android:id="@+id/tvGroup5_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup5_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12 Tage gearbeitet"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/LinLayRight">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/Space2" />
+
+                <TextView
+                    android:id="@+id/tvGroup2_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/week"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup2_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3 Tage gearbeitet"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/Space4" />
+
+                <TextView
+                    android:id="@+id/tvGroup4_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup4_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12 Tage gearbeitet"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/Space6" />
+
+                <TextView
+                    android:id="@+id/tvGroup6_Header"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvGroup6_Text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12 Tage gearbeitet"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

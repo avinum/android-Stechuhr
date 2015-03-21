@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Space;
@@ -102,21 +103,57 @@ public class MainActivity extends Activity {
     private void fullRefresh() {
         appStateRefresh();
 
-        boolean hasBeenSomethingShown = false;
+        boolean orientationPortrait = (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_PORTRAIT);
 
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group1", "1")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup2_Header, R.id.tvGroup2_Text, R.id.Space2, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group2", "7")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup3_Header, R.id.tvGroup3_Text, R.id.Space3, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group3", "30")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup4_Header, R.id.tvGroup4_Text, R.id.Space4, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group4", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup5_Header, R.id.tvGroup5_Text, R.id.Space5, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group5", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
-        hasBeenSomethingShown = SetGroupState(R.id.tvGroup6_Header, R.id.tvGroup6_Text, R.id.Space6, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group6", "0")), !hasBeenSomethingShown) || hasBeenSomethingShown;
+        boolean hasBeenSomethingShownEven = false;
+        boolean hasBeenSomethingShownUneven = false;
+
+        hasBeenSomethingShownUneven = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group1", "1")), !hasBeenSomethingShownUneven) || hasBeenSomethingShownUneven;
+        if (orientationPortrait) {
+            hasBeenSomethingShownEven = hasBeenSomethingShownUneven;
+        }
+        hasBeenSomethingShownEven = SetGroupState(R.id.tvGroup2_Header, R.id.tvGroup2_Text, R.id.Space2, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group2", "7")), !hasBeenSomethingShownEven) || hasBeenSomethingShownEven;
+        if (orientationPortrait) {
+            hasBeenSomethingShownUneven = hasBeenSomethingShownEven;
+        }
+        hasBeenSomethingShownUneven = SetGroupState(R.id.tvGroup3_Header, R.id.tvGroup3_Text, R.id.Space3, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group3", "30")), !hasBeenSomethingShownUneven) || hasBeenSomethingShownUneven;
+        if (orientationPortrait) {
+            hasBeenSomethingShownEven = hasBeenSomethingShownUneven;
+        }
+        hasBeenSomethingShownEven = SetGroupState(R.id.tvGroup4_Header, R.id.tvGroup4_Text, R.id.Space4, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group4", "0")), !hasBeenSomethingShownEven) || hasBeenSomethingShownEven;
+        if (orientationPortrait) {
+            hasBeenSomethingShownUneven = hasBeenSomethingShownEven;
+        }
+        hasBeenSomethingShownUneven = SetGroupState(R.id.tvGroup5_Header, R.id.tvGroup5_Text, R.id.Space5, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group5", "0")), !hasBeenSomethingShownUneven) || hasBeenSomethingShownUneven;
+        if (orientationPortrait) {
+            hasBeenSomethingShownEven = hasBeenSomethingShownUneven;
+        }
+        hasBeenSomethingShownEven = SetGroupState(R.id.tvGroup6_Header, R.id.tvGroup6_Text, R.id.Space6, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group6", "0")), !hasBeenSomethingShownEven) || hasBeenSomethingShownEven;
 
         TextView tvWelcome = (TextView) findViewById(R.id.tvWelcome);
-        if (!hasBeenSomethingShown && StechuhrApplication.getHelper().isDatabaseEmpty()){
+        if (!(hasBeenSomethingShownUneven || hasBeenSomethingShownEven) && StechuhrApplication.getHelper().isDatabaseEmpty()) {
             tvWelcome.setVisibility(View.VISIBLE);
             tvWelcome.setText(getString(R.string.Welcome));
-        }else {
+            if (!orientationPortrait) {
+                LinearLayout LinLayRight = (LinearLayout) findViewById(R.id.LinLayRight);
+                LinLayRight.setVisibility(View.GONE);
+            }
+        } else {
             tvWelcome.setVisibility(View.GONE);
+            if (!orientationPortrait) {
+                LinearLayout LinLayLeft = (LinearLayout) findViewById(R.id.LinLayLeft);
+                if (hasBeenSomethingShownUneven) {
+                    LinLayLeft.setVisibility(View.VISIBLE);
+                } else {
+                    LinLayLeft.setVisibility(View.GONE);
+                }
+                LinearLayout LinLayRight = (LinearLayout) findViewById(R.id.LinLayRight);
+                if (hasBeenSomethingShownEven) {
+                    LinLayRight.setVisibility(View.VISIBLE);
+                } else {
+                    LinLayRight.setVisibility(View.GONE);
+                }
+            }
         }
 
         if (appstate == AppState.AFTERWORK && !false) { //TODO Außer es gibt Fortsetzung
