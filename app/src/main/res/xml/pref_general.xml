@@ -14,11 +14,11 @@
         </PreferenceCategory>
         <PreferenceCategory android:title="Backup">
             <Preference
-                android:key="action_BackupCreate"
-                android:title="Backup erstellen" />
+                android:key="action_Backup_Local"
+                android:title="@string/LocalBackup" />
             <Preference
-                android:key="action_BackupImport"
-                android:title="Backup importieren" />
+                android:key="action_Backup_Google_Drive"
+                android:title="@string/GoogleDriveBackups" />
         </PreferenceCategory>
     </PreferenceScreen>
 

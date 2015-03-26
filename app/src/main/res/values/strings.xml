@@ -58,5 +58,11 @@
     <string name="legalNotice">Impressum</string>
     <string name="privacyPolicy">Datenschutzerklärung</string>
     <string name="privacyPolicyContent">Es werden keine Daten des Nutzers automatisch an die Entwickler der App oder dritte Parteien gesendet.\n\nAlle Daten der App werden in einer SQLite Datenbank auf dem Gerät gespeichert. Diese Daten können laut developer.android.com nur durch die App selbst gelesen werden. Eine Garantie darauf besteht jedoch nicht.\n\nDer Nutzer kann Backups oder Zusammenfassungen lokal erstellen. Dieser Vorgang muss immer vom Nutzer ausgelöst werden und erfolgt nie automatisch. Die dabei entstehenden Daten werden unverschlüsselt auf dem Gerät oder der SD-Karte gespeichert. Andere Apps können möglicherweise auf diese Daten zugreifen.\n\nDer Nutzer kann Backups oder Zusammenfassungen für einen Clouddienst (wie z.B. Google Drive) erstellen. Dieser Vorgang muss immer vom Nutzer ausgelöst werden und erfolgt nie automatisch. Die dabei entstehenden Daten werden möglicherweise unverschlüsselt im Klartext übertragen. Die Daten werden innerhalb des Clouddienstes unverschlüsselt gespeichert und können möglicherweise von anderen Programmen ausgelesen werden.</string>
+    <string name="createBackup">Backup erstellen</string>
+    <string name="ExistingBackups">Vorhandene Backups</string>
+    <string name="LocalBackup">Lokale Backups</string>
+    <string name="GoogleDriveBackups">Backups auf Google Drive</string>
+    <string name="GoogleDriveConnectError">Ein Fehler ist bei der Verbindung zu Google Drive aufgetreten.</string>
+    <string name="pleaseWait">Bitte warten...</string>
 
 </resources>

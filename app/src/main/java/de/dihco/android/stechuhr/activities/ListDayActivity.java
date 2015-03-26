@@ -21,7 +21,7 @@ public class ListDayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_day);
+        setContentView(R.layout.activity_list);
 
 
         fillListView();
@@ -30,7 +30,7 @@ public class ListDayActivity extends Activity {
 
     private void fillListView() {
 
-        ListView listview = (ListView) findViewById(R.id.lvDay);
+        ListView listview = (ListView) findViewById(R.id.lvList);
         final ArrayList<String> list = new ArrayList<String>();
 
         boolean hideNoWorkTimeOnOverView = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);

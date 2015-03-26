@@ -21,14 +21,14 @@ public class ListWeekActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_week);
+        setContentView(R.layout.activity_list);
 
         fillListView();
     }
 
     private void fillListView() {
 
-        ListView listview = (ListView) findViewById(R.id.lvWeekView);
+        ListView listview = (ListView) findViewById(R.id.lvList);
         final ArrayList<String> list = new ArrayList<String>();
 
         boolean hideNoWorkTimeOnOverView = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);

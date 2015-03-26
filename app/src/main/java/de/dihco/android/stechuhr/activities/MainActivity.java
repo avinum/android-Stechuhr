@@ -86,6 +86,8 @@ public class MainActivity extends Activity {
             return true;
         }
 
+
+
 //        if (id == R.id.action_EditView) {
 //            Intent intent = new Intent(this, DataEditActivity.class);
 //            startActivity(intent);
@@ -329,16 +331,6 @@ public class MainActivity extends Activity {
 
         setButtonState();
     }
-
-    private void SetGroupState_OLD(String headerText, TextView headerTextView, TextView textView1, long time) {
-
-        headerTextView.setText(headerText);
-        Cursor cursor = StechuhrApplication.getHelper().getRowsSince(time);
-
-        TimeOverView tOV = ComLib.getTimeOverViewFromCursor(cursor);
-        textView1.setText(StrHelp.getOverViewText(tOV, ""));
-    }
-
 
     private void setButtonState() {
         Button btnStartDay = (Button) findViewById(R.id.btnStartDay);

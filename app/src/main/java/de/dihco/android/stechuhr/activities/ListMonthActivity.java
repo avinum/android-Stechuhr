@@ -20,14 +20,14 @@ public class ListMonthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_month);
+        setContentView(R.layout.activity_list);
 
         fillListView();
     }
 
     private void fillListView() {
 
-        ListView listview = (ListView) findViewById(R.id.lvMonthView);
+        ListView listview = (ListView) findViewById(R.id.lvList);
         final ArrayList<String> list = new ArrayList<String>();
 
         long oldSec = ComLib.getUnixOfPreviousFirstInMonthMidnight(+1);

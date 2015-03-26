@@ -1,27 +1,35 @@
-package de.dihco.android.stechuhr.activities;
+package de.dihco.android.stechuhr.Backup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.MediaScannerConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import de.dihco.android.stechuhr.R;
+import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.common.ComLib;
+import de.dihco.android.stechuhr.common.StrHelp;
 
-public class BackupImportActivity extends Activity {
+public class BackupLocalActivity extends Activity {
 
     String backupFileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backup_import);
+        setContentView(R.layout.activity_backup);
 
         final ListView lv = (ListView) findViewById(R.id.lvBackupImport);
 
@@ -35,7 +43,7 @@ public class BackupImportActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                ComLib.importBackup(backupFileName);
+                                ComLib.importBackup( backupFileName , BackupLocalActivity.this );
                                 //Yes button clicked
                                 break;
 
@@ -47,7 +55,7 @@ public class BackupImportActivity extends Activity {
                 };
 
                 backupFileName = String.valueOf(lv.getItemAtPosition(position));
-                AlertDialog.Builder builder = new AlertDialog.Builder(BackupImportActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(BackupLocalActivity.this);
                 builder.setMessage("Backup " + backupFileName + " importieren?").setPositiveButton("Ja", dialogClickListener).setNegativeButton("Nein", dialogClickListener).show();
 
                 //StechuhrApplication.getHelper().getRowsSinceWithSpan(dateOfListSeconds, TimeUnit.DAYS.toSeconds(1));
@@ -67,12 +75,45 @@ public class BackupImportActivity extends Activity {
         final ArrayList<String> list = ComLib.getLocalBackupFileList();
 
         if (list.size() == 0){
-            finish();
+            listview.setAdapter(null);
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
         listview.setAdapter(adapter);
+    }
+
+    public void btnCreateBackupClick(View view) {
+        try {
+            File folder = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+
+            File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", StrHelp.getBackupFileName());
+            if (!traceFile.exists()) {
+                traceFile.createNewFile();
+                // Adds a line to the trace file
+                BufferedWriter writer = new BufferedWriter(new FileWriter(traceFile, true /*append*/));
+
+                ComLib.createBackup(writer);
+                // Refresh the data so it can seen when the device is plugged in a
+                // computer. You may have to unplug and replug the device to see the
+                // latest changes. This is not necessary if the user should not modify
+                // the files.
+                MediaScannerConnection.scanFile(StechuhrApplication.context,
+                        new String[]{traceFile.toString()},
+                        null,
+                        null);
+
+                ComLib.ShowMessage("Backup erfolgreich.\n\n" + traceFile.getPath());
+            } else {
+                ComLib.ShowMessage("Backup fehlgeschlagen.\n\nDatei schon vorhanden.");
+            }
+        } catch (IOException e) {
+
+        }
+        fillList();
     }
 
 

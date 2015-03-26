@@ -8,6 +8,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 
+import de.dihco.android.stechuhr.Backup.BackupGoogleDriveActivity;
+import de.dihco.android.stechuhr.Backup.BackupLocalActivity;
 import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.common.ComLib;
@@ -29,14 +31,7 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        Preference button_action_BackupCreate = (Preference) findPreference("action_BackupCreate");
-        button_action_BackupCreate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                ComLib.createBackup();
-                return true;
-            }
-        });
+
 
         Preference button_action_DataCheck = (Preference) findPreference("action_DataCheck");
         button_action_DataCheck.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -57,11 +52,21 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
-        Preference button_action_BackupImport = (Preference) findPreference("action_BackupImport");
-        button_action_BackupImport.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        Preference button_action_Backup_Local = (Preference) findPreference("action_Backup_Local");
+        button_action_Backup_Local.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                Intent intent = new Intent(StechuhrApplication.context, BackupImportActivity.class);
+                Intent intent = new Intent(StechuhrApplication.context, BackupLocalActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        Preference button_action_Google_Drive_BackupCreate = (Preference) findPreference("action_Backup_Google_Drive");
+        button_action_Google_Drive_BackupCreate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                Intent intent = new Intent(StechuhrApplication.context, BackupGoogleDriveActivity.class);
                 startActivity(intent);
                 return true;
             }

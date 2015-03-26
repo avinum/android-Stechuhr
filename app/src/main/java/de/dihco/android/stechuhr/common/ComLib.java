@@ -1,8 +1,11 @@
 package de.dihco.android.stechuhr.common;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
+import android.os.Looper;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -12,13 +15,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import de.dihco.android.stechuhr.Backup.BackupLocalActivity;
+import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.TimeOverView;
+import de.dihco.android.stechuhr.activities.MainActivity;
+import de.dihco.android.stechuhr.activities.SettingsActivity;
 
 /**
  * Created by Martin on 31.01.2015.
@@ -200,83 +208,69 @@ public final class ComLib {
         StechuhrApplication.getHelper().deleteAll();
     }
 
-    public static void createBackup() {
-        try {
-            File folder = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup");
-            if (!folder.exists()) {
-                folder.mkdir();
-            }
 
-            File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", StrHelp.getBackupFileName());
-            if (!traceFile.exists()) {
-                traceFile.createNewFile();
-                // Adds a line to the trace file
-                BufferedWriter writer = new BufferedWriter(new FileWriter(traceFile, true /*append*/));
+    public static void createBackup(Writer writer) throws IOException {
+        writer.write("Stechuhr Backup\n" + StrHelp.getDateFromSeconds(ComLib.getUnixTimeNow()) + "\n" + StrHelp.getClockTimeFromSeconds(ComLib.getUnixTimeNow()) + "\n===============\n");
 
-                writer.write("Stechuhr Backup\n" + StrHelp.getDateFromSeconds(ComLib.getUnixTimeNow()) + "\n" + StrHelp.getClockTimeFromSeconds(ComLib.getUnixTimeNow()) + "\n===============\n");
+        Cursor cursor = StechuhrApplication.getHelper().getAll();
 
-                Cursor cursor = StechuhrApplication.getHelper().getAll();
-
-                while (cursor.moveToNext()) {
-                    writer.write(cursor.getString(0) + "," + cursor.getString(1) + "\n");
-                }
-
-                writer.close();
-                // Refresh the data so it can seen when the device is plugged in a
-                // computer. You may have to unplug and replug the device to see the
-                // latest changes. This is not necessary if the user should not modify
-                // the files.
-                MediaScannerConnection.scanFile(StechuhrApplication.context,
-                        new String[]{traceFile.toString()},
-                        null,
-                        null);
-
-                ComLib.ShowMessage("Backup erfolgreich.\n\n" + traceFile.getPath());
-            } else {
-                ComLib.ShowMessage("Backup fehlgeschlagen.\n\nDatei schon vorhanden.");
-            }
-        } catch (IOException e) {
-
+        while (cursor.moveToNext()) {
+            writer.write(cursor.getString(0) + "," + cursor.getString(1) + "\n");
         }
+
+        writer.close();
     }
 
-    public static void importBackup(String fileName) {
-        int errorCounter = 0;
-        int successCounter = 0;
-        File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", fileName);
+    public static void importBackup(final String fileName, Context context) {
 
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(traceFile));
+        final ProgressDialog progDailog = ProgressDialog.show(context, StechuhrApplication.context.getString(R.string.backupImport),
+                context.getString(R.string.pleaseWait), true);
 
-            String line = bufferedReader.readLine();
+        new Thread() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                int errorCounter = 0;
+                int successCounter = 0;
+                File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", fileName);
 
-            if (! line.equals("Stechuhr Backup"))
-                throw new IOException("Kein Stechuhr Backup Format");
-            line = bufferedReader.readLine();//Datum
-            line = bufferedReader.readLine();//Zeit
-            line = bufferedReader.readLine();//Trenner
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(traceFile));
 
-            line = bufferedReader.readLine(); // Erste Zeile
-            while (line != null) {
-                String[] lineSplit = line.split(",");
-                long secs = Long.parseLong(lineSplit[0]);
-                int code = Integer.parseInt(lineSplit[1]);
+                    String line = bufferedReader.readLine();
 
-                if (StechuhrApplication.getHelper().insertActionWithTime(secs, code, true) == -1)
-                    errorCounter++;
-                else
-                    successCounter++;
+                    if (!line.equals("Stechuhr Backup"))
+                        throw new IOException("Kein Stechuhr Backup Format");
+                    line = bufferedReader.readLine();//Datum
+                    line = bufferedReader.readLine();//Zeit
+                    line = bufferedReader.readLine();//Trenner
 
-                line = bufferedReader.readLine();
+                    line = bufferedReader.readLine(); // Erste Zeile
+                    while (line != null) {
+                        String[] lineSplit = line.split(",");
+                        long secs = Long.parseLong(lineSplit[0]);
+                        int code = Integer.parseInt(lineSplit[1]);
+
+                        if (StechuhrApplication.getHelper().insertActionWithTime(secs, code, true) == -1)
+                            errorCounter++;
+                        else
+                            successCounter++;
+
+                        line = bufferedReader.readLine();
+                    }
+
+                    ComLib.ShowMessage("Import abgeschlossen.\n\n" + successCounter + " eingefügt\n" + errorCounter + " übersprüngen");
+
+                } catch (FileNotFoundException e) {
+                    ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
+                } catch (IOException e) {
+                    ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
+                }
+
+                progDailog.dismiss();
+                Looper.loop();
             }
-
-            ComLib.ShowMessage("Import abgeschlossen.\n\n" + successCounter + " eingefügt\n" + errorCounter + " übersprüngen");
-
-        } catch (FileNotFoundException e) {
-            ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
-        } catch (IOException e) {
-            ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
-        }
+        }.start();
     }
 
     public static ArrayList<String> getLocalBackupFileList() {
@@ -290,7 +284,7 @@ public final class ComLib {
             for (int i = fileArray.length - 1; i >= 0; i--) {
                 list.add(fileArray[i].getName());
             }
-        }else {
+        } else {
             ComLib.ShowMessage("Keine Backups vorhanden!");
         }
         return list;
