@@ -8,8 +8,8 @@ android {
         applicationId "de.dihco.android.stechuhr"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 12
-        versionName "1.2"
+        versionCode 13
+        versionName "1.3"
     }
     buildTypes {
         release {
