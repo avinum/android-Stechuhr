@@ -11,8 +11,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class BackupLocalActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backup);
+        setContentView(R.layout.activity_backup_local);
 
         final ListView lv = (ListView) findViewById(R.id.lvBackupImport);
 
@@ -43,7 +46,7 @@ public class BackupLocalActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                ComLib.importBackup( backupFileName , BackupLocalActivity.this );
+                                importBackup( backupFileName );
                                 //Yes button clicked
                                 break;
 
@@ -68,6 +71,18 @@ public class BackupLocalActivity extends Activity {
         });
 
         fillList();
+    }
+
+    private void importBackup(final String fileName) {
+        try {
+
+            File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", fileName);
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(traceFile));
+            ComLib.importBackup(bufferedReader, BackupLocalActivity.this);
+
+        } catch (FileNotFoundException e) {
+            ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
+        }
     }
 
     private void fillList() {
@@ -106,9 +121,9 @@ public class BackupLocalActivity extends Activity {
                         null,
                         null);
 
-                ComLib.ShowMessage("Backup erfolgreich.\n\n" + traceFile.getPath());
+                ComLib.ShowMessage(getString(R.string.backupSuccess) + "\n\n" + traceFile.getPath());
             } else {
-                ComLib.ShowMessage("Backup fehlgeschlagen.\n\nDatei schon vorhanden.");
+                ComLib.ShowMessage(getString(R.string.backupError) + "\n\nDatei schon vorhanden.");
             }
         } catch (IOException e) {
 

@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -221,10 +222,10 @@ public final class ComLib {
         writer.close();
     }
 
-    public static void importBackup(final String fileName, Context context) {
+    public static void importBackup(final BufferedReader bufferedReader , Context context) {
 
         final ProgressDialog progDailog = ProgressDialog.show(context, StechuhrApplication.context.getString(R.string.backupImport),
-                context.getString(R.string.pleaseWait), true);
+                StechuhrApplication.context.getString(R.string.pleaseWait), true);
 
         new Thread() {
             @Override
@@ -232,15 +233,15 @@ public final class ComLib {
                 Looper.prepare();
                 int errorCounter = 0;
                 int successCounter = 0;
-                File traceFile = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup", fileName);
 
+                String line = null;
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(traceFile));
+                    line = bufferedReader.readLine();
 
-                    String line = bufferedReader.readLine();
 
                     if (!line.equals("Stechuhr Backup"))
-                        throw new IOException("Kein Stechuhr Backup Format");
+                        ComLib.ShowMessage("Kein Stechuhr Backup Format");
+
                     line = bufferedReader.readLine();//Datum
                     line = bufferedReader.readLine();//Zeit
                     line = bufferedReader.readLine();//Trenner
@@ -259,18 +260,18 @@ public final class ComLib {
                         line = bufferedReader.readLine();
                     }
 
-                    ComLib.ShowMessage("Import abgeschlossen.\n\n" + successCounter + " eingefügt\n" + errorCounter + " übersprüngen");
-
-                } catch (FileNotFoundException e) {
-                    ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
                 } catch (IOException e) {
                     ComLib.ShowMessage("Import fehlgeschlagen.\n\n" + e.getMessage());
                 }
+
+                ComLib.ShowMessage("Import abgeschlossen.\n\n" + successCounter + " eingefügt\n" + errorCounter + " übersprungen");
 
                 progDailog.dismiss();
                 Looper.loop();
             }
         }.start();
+
+
     }
 
     public static ArrayList<String> getLocalBackupFileList() {

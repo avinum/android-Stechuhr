@@ -3,12 +3,8 @@ package de.dihco.android.stechuhr.Backup;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,12 +14,14 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.OpenFileActivityBuilder;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -38,32 +36,18 @@ public class BackupGoogleDriveActivity extends Activity implements
 
     protected static final int REQUEST_CODE_RESOLUTION = 1;
     protected static final int REQUEST_CODE_CREATOR = 2;
+    private static final int REQUEST_CODE_OPENER = 3;
+
     private GoogleApiClient mGoogleApiClient;
+
+    private DriveId importFile;
+    private boolean startImport = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_backup);
+        setContentView(R.layout.activity_backup_googledrive);
 
-        Button btnCreate = (Button) findViewById(R.id.btnCreateBackup);
-        btnCreate.setEnabled(false);
-    }
-
-
-    //region Verbindung herstellen / halten / trennen
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(Drive.API)
-                    .addScope(Drive.SCOPE_FILE)
-                    .addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .build();
-        }
-        mGoogleApiClient.connect();
     }
 
     /**
@@ -88,13 +72,37 @@ public class BackupGoogleDriveActivity extends Activity implements
                 if (resultCode == RESULT_OK) {
                     DriveId driveId = (DriveId) data.getParcelableExtra(
                             OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
-                    ComLib.ShowMessage("File created with ID: " + driveId);
+                    ComLib.ShowMessage(getString(R.string.backupSuccess));
                 }
                 break;
+            case REQUEST_CODE_OPENER:
+                if (resultCode == RESULT_OK) {
+                    DriveId driveId = (DriveId) data.getParcelableExtra(
+                            OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
+                    importBackup(driveId);
+                }
             default:
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+
+
+    //region Verbindung herstellen / halten / trennen
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
+        mGoogleApiClient.connect();
     }
 
     /**
@@ -130,8 +138,14 @@ public class BackupGoogleDriveActivity extends Activity implements
      */
     @Override
     public void onConnected(Bundle connectionHint) {
+        if (startImport){
+            startImport = false;
+            importBackup(importFile);
+        }
         Button btnCreate = (Button) findViewById(R.id.btnCreateBackup);
         btnCreate.setEnabled(true);
+        Button btnImport = (Button) findViewById(R.id.btnImportBackup);
+        btnImport.setEnabled(true);
 //        ComLib.ShowMessage( "GoogleApiClient connected");
     }
 
@@ -142,6 +156,8 @@ public class BackupGoogleDriveActivity extends Activity implements
     public void onConnectionSuspended(int cause) {
         Button btnCreate = (Button) findViewById(R.id.btnCreateBackup);
         btnCreate.setEnabled(false);
+        Button btnImport = (Button) findViewById(R.id.btnImportBackup);
+        btnImport.setEnabled(false);
 //        ComLib.ShowMessage( "GoogleApiClient connection suspended");
     }
 
@@ -166,7 +182,7 @@ public class BackupGoogleDriveActivity extends Activity implements
     }
 //endregion
 
-
+    //region Backup erstellen
     public void btnCreateBackupClick(View view) {
         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                 .setResultCallback(driveContentsCallback);
@@ -205,68 +221,57 @@ public class BackupGoogleDriveActivity extends Activity implements
                 }
             };
 
-    //region Backup erstellen
-//    public void btnCreateBackupClick(View view) {
-//        if (mGoogleApiClient != null) {
-//            if (mGoogleApiClient.isConnected()) {
-//                Drive.DriveApi.newDriveContents(mGoogleApiClient)
-//                        .setResultCallback(driveContentsCallback);
-//            } else {
-//                ComLib.ShowMessage("Google Drive Account ist nicht verbunden.");
-//            }
-//        } else {
-//            ComLib.ShowMessage("Google Drive Api ist nicht vorhanden.");
-//        }
-//    }
-//
-//    final private ResultCallback<DriveApi.DriveContentsResult> driveContentsCallback = new
-//            ResultCallback<DriveApi.DriveContentsResult>() {
-//                @Override
-//                public void onResult(DriveApi.DriveContentsResult result) {
-//                    if (!result.getStatus().isSuccess()) {
-//                        ComLib.ShowMessage("Ein Fehler ist bei der Erstellung der Datei aufgetreten.");
-//                        return;
-//                    }
-//                    final DriveContents driveContents = result.getDriveContents();
-//
-//                    // Perform I/O off the UI thread.
-//                    new Thread() {
-//                        @Override
-//                        public void run() {
-//                            // write content to DriveContents
-//                            OutputStream outputStream = driveContents.getOutputStream();
-//                            Writer writer = new OutputStreamWriter(outputStream);
-//                            try {
-//                                ComLib.createBackup(writer);
-//                            } catch (IOException e) {
-//                                ComLib.ShowMessage(e.getMessage());
-//                            }
-//
-//                            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-//                                    .setTitle(StrHelp.getBackupFileName())
-//                                    .setMimeType("text/plain")
-//                                    .setStarred(true).build();
-//
-//                            // create a file on root folder
-//                            Drive.DriveApi.getRootFolder(mGoogleApiClient)
-//                                    .createFile(mGoogleApiClient, changeSet, driveContents)
-//                                    .setResultCallback(fileCallback);
-//                        }
-//                    }.start();
-//                }
-//            };
-//
-//    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new
-//            ResultCallback<DriveFolder.DriveFileResult>() {
-//                @Override
-//                public void onResult(DriveFolder.DriveFileResult result) {
-//                    if (!result.getStatus().isSuccess()) {
-//                        ComLib.ShowMessage("Error while trying to create the file");
-//                        return;
-//                    }
-//                    ComLib.ShowMessage("Created a file with content: " + result.getDriveFile().getDriveId());
-//                }
-//            };
     //endregion
 
+    //region Backup importieren
+    public void btnImportBackupClick(View view) {
+        IntentSender intentSender = Drive.DriveApi
+                .newOpenFileActivityBuilder()
+                .setMimeType(new String[] { "text/plain"})
+                .build(mGoogleApiClient);
+        try {
+            startIntentSenderForResult(
+                    intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
+        } catch (IntentSender.SendIntentException e) {
+            ComLib.ShowMessage("Unable to send intent\n" + e.getMessage());
+        }
+    }
+
+    private void importBackup(final DriveId driveId) {
+
+        if ( mGoogleApiClient.isConnected())
+        {
+            new Thread() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    DriveFile file = Drive.DriveApi.getFile(mGoogleApiClient, driveId);
+                    DriveApi.DriveContentsResult driveContentsResult =
+                            file.open(mGoogleApiClient, DriveFile.MODE_READ_ONLY, null).await();
+
+
+                    if (!driveContentsResult.getStatus().isSuccess()) {
+                        ComLib.ShowMessage(getString(R.string.backupError));
+                        return;
+                    }
+                    DriveContents driveContents = driveContentsResult.getDriveContents();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(driveContents.getInputStream()));
+                    ComLib.importBackup(reader, BackupGoogleDriveActivity.this);
+                    Looper.loop();
+                }}.start();
+        }else {
+            importFile = driveId;
+            startImport = true;
+            mGoogleApiClient.connect();
+        }
+
+
+    }
+
+
+
+
+
+    //endregion
 }

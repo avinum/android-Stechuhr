@@ -64,5 +64,7 @@
     <string name="GoogleDriveBackups">Backups auf Google Drive</string>
     <string name="GoogleDriveConnectError">Ein Fehler ist bei der Verbindung zu Google Drive aufgetreten.</string>
     <string name="pleaseWait">Bitte warten...</string>
+    <string name="backupSuccess">Backup erfolgreich.</string>
+    <string name="backupError">Backup fehlgeschlagen.</string>
 
 </resources>
