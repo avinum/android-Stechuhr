@@ -3,34 +3,26 @@ package de.dihco.android.stechuhr.common;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
-import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.os.Looper;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import de.dihco.android.stechuhr.Backup.BackupLocalActivity;
 import de.dihco.android.stechuhr.R;
 import de.dihco.android.stechuhr.StechuhrApplication;
 import de.dihco.android.stechuhr.TimeOverView;
-import de.dihco.android.stechuhr.activities.MainActivity;
-import de.dihco.android.stechuhr.activities.SettingsActivity;
 
 /**
  * Created by Martin on 31.01.2015.
+ * Static class of generel useful functions
  */
 public final class ComLib {
 
@@ -66,7 +58,6 @@ public final class ComLib {
 
         boolean noEnd = true;
         boolean noEndPause = false;
-        long countDay = 0;
         long pauseTimePerDay = 0;
 
 
@@ -77,16 +68,18 @@ public final class ComLib {
                     res.startZeit = cursor.getLong(0);
                     pauseTimePerDay = 0;
                     noEnd = true;
-                    countDay++;
+                    res.daysWorked++;
                     break;
                 case StechuhrApplication.STARTPAUSE:
                     res.arbeitsZeit += cursor.getLong(0);
                     pauseTimePerDay -= cursor.getLong(0);
                     noEndPause = true;
+                    res.pauseTimesString += " " + StrHelp.getClockTimeFromSeconds(cursor.getLong(0));
                     break;
                 case StechuhrApplication.ENDPAUSE:
                     res.arbeitsZeit -= cursor.getLong(0);
                     pauseTimePerDay += cursor.getLong(0);
+                    res.pauseTimesString += "-" + StrHelp.getClockTimeFromSeconds(cursor.getLong(0));
                     noEndPause = false;
                     break;
                 case StechuhrApplication.ENDDAY:
@@ -136,8 +129,10 @@ public final class ComLib {
         }
 
         if (StechuhrApplication.getPreferences().getBoolean("useWorkTime", false)) {
-            res.überStunden = res.arbeitsZeit - (sollZeit * countDay);
+            res.überStunden = res.arbeitsZeit - (sollZeit * res.daysWorked);
         }
+
+        res.pauseTimesString = res.pauseTimesString.trim();
 
         return res;
     }
@@ -170,12 +165,13 @@ public final class ComLib {
         return (c.getTimeInMillis() / 1000L);
     }
 
-    public static long getUnixPrevMidnight() {
+    public static long getUnixPrevMidnight(int offset) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
+        c.add(Calendar.DATE, offset);
         return (c.getTimeInMillis() / 1000L);
     }
 
@@ -234,7 +230,7 @@ public final class ComLib {
                 int errorCounter = 0;
                 int successCounter = 0;
 
-                String line = null;
+                String line;
                 try {
                     line = bufferedReader.readLine();
 
@@ -242,9 +238,9 @@ public final class ComLib {
                     if (!line.equals("Stechuhr Backup"))
                         ComLib.ShowMessage("Kein Stechuhr Backup Format");
 
-                    line = bufferedReader.readLine();//Datum
-                    line = bufferedReader.readLine();//Zeit
-                    line = bufferedReader.readLine();//Trenner
+                    bufferedReader.readLine();
+                    bufferedReader.readLine();//Zeit
+                    bufferedReader.readLine();//Trenner
 
                     line = bufferedReader.readLine(); // Erste Zeile
                     while (line != null) {
@@ -275,7 +271,7 @@ public final class ComLib {
     }
 
     public static ArrayList<String> getLocalBackupFileList() {
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
 
         File folder = new File(Environment.getExternalStorageDirectory() + "/Stechuhr_Backup");
         File fileArray[] = folder.listFiles();

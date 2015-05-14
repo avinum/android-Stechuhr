@@ -28,7 +28,7 @@ public class ListMonthActivity extends Activity {
     private void fillListView() {
 
         ListView listview = (ListView) findViewById(R.id.lvList);
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
 
         long oldSec = ComLib.getUnixOfPreviousFirstInMonthMidnight(+1);
 
@@ -53,9 +53,10 @@ public class ListMonthActivity extends Activity {
             line += StrHelp.getOverViewText(tOV, StechuhrApplication.context.getString(R.string.space));
 
             list.add(line);
+            cursor.close();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
         listview.setAdapter(adapter);
     }

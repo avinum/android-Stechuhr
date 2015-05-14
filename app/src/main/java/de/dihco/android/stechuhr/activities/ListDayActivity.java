@@ -31,14 +31,14 @@ public class ListDayActivity extends Activity {
     private void fillListView() {
 
         ListView listview = (ListView) findViewById(R.id.lvList);
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
 
         boolean hideNoWorkTimeOnOverView = StechuhrApplication.getPreferences().getBoolean("hideNoWorkTimeOnOverView", true);
         int dayViewCount = Integer.parseInt(StechuhrApplication.getPreferences().getString("dayViewCount", "10"));
 
         for (int i = 0; i < dayViewCount ; i++){
 
-            long sTime = ComLib.getUnixPrevMidnight() - TimeUnit.DAYS.toSeconds(i);
+            long sTime = ComLib.getUnixPrevMidnight(-i);
             Cursor cursor = StechuhrApplication.getHelper().getRowsSinceWithSpan( sTime, TimeUnit.DAYS.toSeconds(1));
 
 
@@ -49,7 +49,7 @@ public class ListDayActivity extends Activity {
 
             TimeOverView tOV = ComLib.getTimeOverViewFromCursor(cursor);
 
-            line = StrHelp.getWeekDayFromSeconds(sTime) + " " + StrHelp.getDateFromSeconds(sTime);
+            line = StrHelp.getWeekDayFromSeconds(sTime + TimeUnit.HOURS.toSeconds(12)) + " " + StrHelp.getDateFromSeconds(sTime + TimeUnit.HOURS.toSeconds(12));
 
             if(tOV.startZeit != 0)
                 line += " " + StrHelp.getClockTimeFromSeconds(tOV.startZeit);
@@ -60,9 +60,10 @@ public class ListDayActivity extends Activity {
             line +=  "\n" + StrHelp.getOverViewText(tOV, StechuhrApplication.context.getString(R.string.space));
 
             list.add(line);
+            cursor.close();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
         listview.setAdapter(adapter);
     }

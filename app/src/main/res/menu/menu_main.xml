@@ -5,7 +5,7 @@
         android:id="@+id/action_Refresh"
         android:icon="@drawable/ic_refresh"
         android:orderInCategory="300"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/refresh" />
      <item
         android:id="@+id/action_ListDay"
@@ -30,5 +30,17 @@
         android:orderInCategory="2000"
         android:showAsAction="always"
         android:icon="@drawable/ic_settings"/>
+
+    <item android:id="@+id/action_Data_and_backup"
+        android:title="@string/dataAndBackup"
+        android:orderInCategory="1000"
+        android:showAsAction="never"/>
+
+    <item android:id="@+id/action_Export"
+        android:title="@string/export"
+        android:orderInCategory="1100"
+        android:showAsAction="never"/>
+
+
 
 </menu>

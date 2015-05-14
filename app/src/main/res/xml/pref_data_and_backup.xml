@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <PreferenceCategory android:title="@string/data">
+            <Preference
+                android:key="action_DataCheck"
+                android:title="@string/dataCheck" />
+            <Preference
+                android:key="action_DataEdit"
+                android:title="@string/dataEdit" />
+            <Preference
+                android:key="action_DataDelete"
+                android:title="@string/dataDelete" />
+        </PreferenceCategory>
+        <PreferenceCategory android:title="Backup">
+            <Preference
+                android:key="action_Backup_Local"
+                android:title="@string/LocalBackup" />
+            <Preference
+                android:key="action_Backup_Google_Drive"
+                android:title="@string/GoogleDriveBackups" />
+        </PreferenceCategory>
+
+</PreferenceScreen>

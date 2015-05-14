@@ -2,6 +2,7 @@ package de.dihco.android.stechuhr.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -86,6 +87,18 @@ public class MainActivity extends Activity {
             return true;
         }
 
+        if (id == R.id.action_Data_and_backup) {
+            Intent intent = new Intent(this, DataAndBackupActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        if (id == R.id.action_Export) {
+            Intent intent = new Intent(this, ExportActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
 
 
 //        if (id == R.id.action_EditView) {
@@ -105,12 +118,12 @@ public class MainActivity extends Activity {
     private void fullRefresh() {
         appStateRefresh();
 
-        boolean orientationPortrait = (getResources().getConfiguration().orientation == getResources().getConfiguration().ORIENTATION_PORTRAIT);
+        boolean orientationPortrait = (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
 
         boolean hasBeenSomethingShownEven = false;
         boolean hasBeenSomethingShownUneven = false;
 
-        hasBeenSomethingShownUneven = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group1", "1")), !hasBeenSomethingShownUneven) || hasBeenSomethingShownUneven;
+        hasBeenSomethingShownUneven = SetGroupState(R.id.tvGroup1_Header, R.id.tvGroup1_Text, 0, Integer.parseInt(StechuhrApplication.getPreferences().getString("Design_Group1", "1")), true);
         if (orientationPortrait) {
             hasBeenSomethingShownEven = hasBeenSomethingShownUneven;
         }
@@ -158,7 +171,7 @@ public class MainActivity extends Activity {
             }
         }
 
-        if (appstate == AppState.AFTERWORK && !false) { //TODO Außer es gibt Fortsetzung
+        if (appstate == AppState.AFTERWORK){ // && !false) { //TODO Außer es gibt Fortsetzung
             ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
             lp.setMargins(0, 0, 0, 0);
@@ -208,7 +221,7 @@ public class MainActivity extends Activity {
             long timeSince;
             switch (prefContent) {
                 case 1:
-                    timeSince = ComLib.getUnixPrevMidnight();
+                    timeSince = ComLib.getUnixPrevMidnight(0);
                     break;
                 case 7:
                     timeSince = ComLib.getUnixOfPreviousMondayMidnight(0);
@@ -229,7 +242,7 @@ public class MainActivity extends Activity {
                     long timeSpan;
                     switch (prefContent) {
                         case 2:
-                            timeSince = ComLib.getUnixPrevMidnight() - TimeUnit.DAYS.toSeconds(1);
+                            timeSince = ComLib.getUnixPrevMidnight(0) - TimeUnit.DAYS.toSeconds(1);
                             timeSpan = TimeUnit.DAYS.toSeconds(1);
                             break;
                         case 14:
@@ -265,7 +278,7 @@ public class MainActivity extends Activity {
 
         //==== Fill the Views ====
         //Header
-        String headerText = "";
+        String headerText;
         switch (prefContent) {
             case 1:
                 headerText = getString(R.string.today);
@@ -301,6 +314,7 @@ public class MainActivity extends Activity {
         }
         tvHeader.setText(headerText);
 
+        cursor.close();
         return true;
     }
 
@@ -330,6 +344,7 @@ public class MainActivity extends Activity {
 
 
         setButtonState();
+        cursor.close();
     }
 
     private void setButtonState() {

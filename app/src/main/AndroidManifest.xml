@@ -73,7 +73,7 @@
                 android:value="de.dihco.android.stechuhr.activities.SettingsActivity" />
         </activity>
         <activity
-            android:name=".Backup.BackupLocalActivity"
+            android:name=".backup.BackupLocalActivity"
             android:label="@string/LocalBackup"
             android:parentActivityName=".activities.SettingsActivity" >
             <meta-data
@@ -89,12 +89,28 @@
                 android:value="de.dihco.android.stechuhr.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Backup.BackupGoogleDriveActivity"
+            android:name=".backup.BackupGoogleDriveActivity"
             android:label="@string/GoogleDriveBackups"
             android:parentActivityName=".activities.SettingsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.dihco.android.stechuhr.activities.SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DataAndBackupActivity"
+            android:label="@string/dataAndBackup"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.dihco.android.stechuhr.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ExportActivity"
+            android:label="@string/export"
+            android:parentActivityName=".activities.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.dihco.android.stechuhr.activities.MainActivity" />
         </activity>
     </application>
 

@@ -21,10 +21,17 @@
         <item>0</item>
     </string-array>
 
-    <string-array name="BackupImportSources">
-        <item>Lokal</item>
-        <item>Google Drive</item>
+    <string-array name="ExportFormat">
+        <item>Tage</item>
+        <item>Wochen</item>
+        <item>Monate</item>
     </string-array>
+    <string-array name="ExportFormatValues">
+        <item>1</item>
+        <item>7</item>
+        <item>30</item>
+    </string-array>
+
 
 
 </resources>

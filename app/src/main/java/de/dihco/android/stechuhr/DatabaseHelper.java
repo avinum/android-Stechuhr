@@ -11,6 +11,7 @@ import de.dihco.android.stechuhr.common.ComLib;
 
 /**
  * Created by Martin on 29.01.2015.
+ * All requests to the database are collected here
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -51,23 +52,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAppState() {
-        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ?", new String[]{Long.toString(ComLib.getUnixPrevMidnight())}, null, null, "DateTime DESC" , "1");
-        return cursor;
+        return sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ?", new String[]{Long.toString(ComLib.getUnixPrevMidnight(0))}, null, null, "DateTime DESC" , "1");
     }
 
     public Cursor getFirstEvent() {
-        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, null, null , null, null, "DateTime ASC" , "1");
-        return cursor;
+        return sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, null, null , null, null, "DateTime ASC" , "1");
     }
 
     public Cursor getRowsSince(long startPoint) {
-        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ?", new String[]{Long.toString(startPoint)}, null, null, "DateTime");
-        return cursor;
+        return sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ?", new String[]{Long.toString(startPoint)}, null, null, "DateTime");
     }
 
     public Cursor getRowsSinceWithSpan(long startPoint, long TimeSpan) {
-        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ? AND DateTime < ?", new String[]{Long.toString(startPoint),Long.toString(startPoint + TimeSpan)}, null, null, "DateTime");
-        return cursor;
+        return sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, "DateTime > ? AND DateTime < ?", new String[]{Long.toString(startPoint),Long.toString(startPoint + TimeSpan)}, null, null, "DateTime");
     }
 
     public void deleteRow(long seconds) {
@@ -77,8 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAll() {
-        Cursor cursor = sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, null, null , null, null, "DateTime");
-        return cursor;
+        return sqliteDatabase.query("actionlog", new String[]{"DateTime", "ActionCode"}, null, null , null, null, "DateTime");
     }
 
     public void deleteAll() {
@@ -87,6 +83,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isDatabaseEmpty(){
         Cursor cursor = sqliteDatabase.query("actionlog", new String[]{ "ActionCode"}, null, null , null, null, null, "1");
-        return (cursor.getCount() == 0);
+
+        boolean bRet = cursor.getCount() == 0;
+        cursor.close();
+        return bRet;
     }
 }

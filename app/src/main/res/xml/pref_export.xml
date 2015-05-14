@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <Preference
+                android:key="action_ExportStart"
+                android:title="Export starten" />
+        <PreferenceCategory android:title="@string/exportFormat">
+            <de.dihco.android.stechuhr.ListPreferenceShowSummary
+                android:defaultValue="1"
+                android:entries="@array/ExportFormat"
+                android:entryValues="@array/ExportFormatValues"
+                android:key="exportformat"
+                android:title="Exportformat auswählen" />
+        </PreferenceCategory>
+
+</PreferenceScreen>

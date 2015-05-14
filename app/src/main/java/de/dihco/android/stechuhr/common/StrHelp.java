@@ -10,6 +10,7 @@ import de.dihco.android.stechuhr.TimeOverView;
 
 /**
  * Created by Martin on 01.02.2015.
+ * Gathered functions to manipulate or generate strings
  */
 public final class StrHelp {
 
@@ -21,6 +22,12 @@ public final class StrHelp {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         return format1.format(c.getTime()) + ".txt";
+    }
+
+    public static String getExportFileName(String pre){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        return StechuhrApplication.context.getString(R.string.export)+ "_" + pre + "_" + format1.format(c.getTime()) + ".csv";
     }
 
 
@@ -63,6 +70,14 @@ public final class StrHelp {
             return String.format("%dmin", TimeUnit.SECONDS.toMinutes(secs));
         else
             return String.format("%dh %02dmin", TimeUnit.SECONDS.toHours(secs), TimeUnit.SECONDS.toMinutes(secs) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(secs)));
+    }
+
+    public static String getExportTimeSpanFromSeconds(long secs) {
+        if (secs > 0)
+            return String.format("%02d:%02d:%02d", TimeUnit.SECONDS.toHours(secs), TimeUnit.SECONDS.toMinutes(secs) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(secs)), secs - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(secs)));
+        else
+            secs = Math.abs(secs);
+            return String.format("-%02d:%02d:%02d", TimeUnit.SECONDS.toHours(secs), TimeUnit.SECONDS.toMinutes(secs) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(secs)), secs - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(secs)));
     }
 
     public static String getDateFromSeconds(long secs) {

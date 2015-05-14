@@ -1,94 +1,72 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceScreen android:title="Daten und Backup">
-        <PreferenceCategory android:title="Daten">
-            <Preference
-                android:key="action_DataCheck"
-                android:title="Daten überprüfen" />
-            <Preference
-                android:key="action_DataEdit"
-                android:title="Daten bearbeiten" />
-            <Preference
-                android:key="action_DataDelete"
-                android:title="Alle Daten löschen" />
-        </PreferenceCategory>
-        <PreferenceCategory android:title="Backup">
-            <Preference
-                android:key="action_Backup_Local"
-                android:title="@string/LocalBackup" />
-            <Preference
-                android:key="action_Backup_Google_Drive"
-                android:title="@string/GoogleDriveBackups" />
-        </PreferenceCategory>
-    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/display">
 
-    <PreferenceScreen android:title="Anzeige">
-
-        <PreferenceCategory android:title="Allgemein">
+        <PreferenceCategory android:title="@string/general">
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="hideNoWorkTimeOnStartDisplay"
-                android:summary="Elemente ohne Arbeitszeit werden ausgeblendet."
-                android:title="Startseite aufräumen?" />
+                android:summary="@string/removeItemsWithoutWorktime"
+                android:title="@string/cleanupFrontpage" />
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="hideNoWorkTimeOnOverView"
-                android:summary="Elemente ohne Arbeitszeit werden ausgeblendet."
-                android:title="Übersichten aufräumen?" />
+                android:summary="@string/removeItemsWithoutWorktime"
+                android:title="@string/cleanupOverviews" />
         </PreferenceCategory>
 
-        <PreferenceCategory android:title="Startseite">
+        <PreferenceCategory android:title="@string/frontpage">
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="1"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group1"
-                android:title="Position 1" />
+                android:title="@string/position1" />
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="7"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group2"
-                android:title="Position 2" />
+                android:title="@string/position2" />
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="30"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group3"
-                android:title="Position 3" />
+                android:title="@string/position3" />
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="0"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group4"
-                android:title="Position 4" />
+                android:title="@string/position4" />
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="0"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group5"
-                android:title="Position 5" />
+                android:title="@string/position5" />
             <de.dihco.android.stechuhr.ListPreferenceShowSummary
                 android:defaultValue="0"
                 android:entries="@array/DisplayGroupsStartScreen"
                 android:entryValues="@array/DisplayGroupsStartScreenValues"
                 android:key="Design_Group6"
-                android:title="Position 6" />
+                android:title="@string/position6" />
 
         </PreferenceCategory>
-        <PreferenceCategory android:title="Übersichten">
+        <PreferenceCategory android:title="@string/overview">
             <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
                 postText=" Tage"
                 android:defaultValue="10"
                 android:inputType="number"
                 android:key="dayViewCount"
-                android:title="Max. Anzahl Tage in der Tagesansicht" />
+                android:title="@string/maxDays" />
             <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
                 postText=" Wochen"
                 android:defaultValue="10"
                 android:inputType="number"
                 android:key="weekViewCount"
-                android:title="Max. Anzahl Wochen in der Wochenansicht" />
+                android:title="@string/maxWeeks" />
             <de.dihco.android.stechuhr.EditTextPreferenceShowSummary
                 postText=" Monate"
                 android:defaultValue="10"

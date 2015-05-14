@@ -5,15 +5,19 @@
 
     <!--generic-->
     <string name="day">Tag</string>
+    <string name="days">Tage</string>
     <string name="today">Heute</string>
     <string name="week">Woche</string>
+    <string name="weeks">Wochen</string>
     <string name="month">Monat</string>
+    <string name="months">Monate</string>
     <string name="pause">Pause</string>
     <string name="yesterday">Gestern</string>
 
     <string name="overtime">Überstunden</string>
     <string name="worktime">Arbeitszeit</string>
     <string name="since">Seit</string>
+    <string name="data">Daten</string>
 
     <string name="space">\u00A0\u00A0\u00A0\u00A0</string>
     <string name="refresh">Aktualisieren</string>
@@ -31,6 +35,8 @@
 
     <string name="dataCheck">Daten überprüfen</string>
     <string name="dataEdit">Daten bearbeiten</string>
+    <string name="dataDelete">Alle Daten löschen</string>
+
 
     <string name="listDay">Tagesansicht</string>
     <string name="listWeek">Wochenansicht</string>
@@ -66,5 +72,26 @@
     <string name="pleaseWait">Bitte warten...</string>
     <string name="backupSuccess">Backup erfolgreich.</string>
     <string name="backupError">Backup fehlgeschlagen.</string>
+    <string name="exportSuccess">Export erfolgreich.</string>
+    <string name="exportError">Export fehlgeschlagen.</string>
+    <string name="dataAndBackup">Daten und Backup</string>
+    <string name="display">Anzeige</string>
+    <string name="general">Allgemein</string>
+    <string name="removeItemsWithoutWorktime">Elemente ohne Arbeitszeit werden ausgeblendet.</string>
+    <string name="cleanupFrontpage">Startseite aufräumen?</string>
+    <string name="cleanupOverviews">Übersichten aufräumen?</string>
+    <string name="frontpage">Startseite</string>
+    <string name="position1">Position 1</string>
+    <string name="position2">Position 2</string>
+    <string name="position3">Position 3</string>
+    <string name="position4">Position 4</string>
+    <string name="position5">Position 5</string>
+    <string name="position6">Position 6</string>
+    <string name="overview">Übersichten</string>
+    <string name="maxDays">Max. Anzahl Tage in der Tagesansicht</string>
+    <string name="maxWeeks">Max. Anzahl Wochen in der Wochenansicht</string>
+    <string name="exportFormat">Exportformat</string>
+    <string name="export">Export</string>
+
 
 </resources>
