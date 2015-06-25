@@ -1,4 +1,4 @@
-package de.dihco.android.stechuhr.Backup;
+package de.dihco.android.stechuhr.backup;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -70,14 +70,14 @@ public class BackupGoogleDriveActivity extends Activity implements
                 break;
             case REQUEST_CODE_CREATOR:
                 if (resultCode == RESULT_OK) {
-                    DriveId driveId = (DriveId) data.getParcelableExtra(
+                    DriveId driveId =  data.getParcelableExtra(
                             OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
                     ComLib.ShowMessage(getString(R.string.backupSuccess));
                 }
                 break;
             case REQUEST_CODE_OPENER:
                 if (resultCode == RESULT_OK) {
-                    DriveId driveId = (DriveId) data.getParcelableExtra(
+                    DriveId driveId = data.getParcelableExtra(
                             OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
                     importBackup(driveId);
                 }

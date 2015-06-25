@@ -1,4 +1,4 @@
-package de.dihco.android.stechuhr.Backup;
+package de.dihco.android.stechuhr.backup;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -93,7 +93,7 @@ public class BackupLocalActivity extends Activity {
             listview.setAdapter(null);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list);
         listview.setAdapter(adapter);
     }
@@ -126,7 +126,7 @@ public class BackupLocalActivity extends Activity {
                 ComLib.ShowMessage(getString(R.string.backupError) + "\n\nDatei schon vorhanden.");
             }
         } catch (IOException e) {
-
+            ComLib.ShowMessage(getString(R.string.backupError) + "\n\nFehler bei Ausgabe.");
         }
         fillList();
     }
