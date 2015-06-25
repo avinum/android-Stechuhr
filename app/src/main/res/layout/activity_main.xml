@@ -8,47 +8,65 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnStartDay"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btnStartDayClick"
-        android:text="@string/btnStartDay"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/BtnBox2">
 
-    <Button
-        android:id="@+id/btnDayEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="btnEndDayClick"
-        android:text="@string/btnEndDay"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        <Button
+            android:id="@+id/btnStartDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnStartDayClick"
+            android:text="@string/btnStartDay" />
 
-    <Button
-        android:id="@+id/btnStartPause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="btnStartPauseClick"
-        android:text="@string/btnStartPause"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
 
-    <Button
-        android:id="@+id/btnEndPause"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btnEndPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnEndPauseClick"
+            android:text="@string/btnEndPause" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btnEndPauseClick"
-        android:text="@string/btnEndPause"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/BtnBox1">
+
+        <Button
+            android:id="@+id/btnStartPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnStartPauseClick"
+            android:text="@string/btnStartPause" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <Button
+            android:id="@+id/btnDayEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btnEndDayClick"
+            android:text="@string/btnEndDay" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/btnStartPause"
+        android:layout_below="@+id/BtnBox1"
         android:layout_marginTop="20dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
